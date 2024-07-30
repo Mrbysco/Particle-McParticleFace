@@ -1,1 +1,1 @@
-* Change the method of calculating the distance of the particle from the Particle Emitter
+* Initial update to 1.20.6
