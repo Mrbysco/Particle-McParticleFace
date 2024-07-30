@@ -14,7 +14,7 @@ public record SetParticleDataPayload(BlockPos pos, ResourceLocation dimension, S
 	public static final StreamCodec<FriendlyByteBuf, SetParticleDataPayload> CODEC = CustomPacketPayload.codec(
 			SetParticleDataPayload::write,
 			SetParticleDataPayload::new);
-	public static final Type<SetParticleDataPayload> ID = new Type<>(new ResourceLocation(ParticleMimicry.MOD_ID, "set_particle_data"));
+	public static final Type<SetParticleDataPayload> ID = new Type<>(ResourceLocation.fromNamespaceAndPath(ParticleMimicry.MOD_ID, "set_particle_data"));
 
 
 	public SetParticleDataPayload(final FriendlyByteBuf packetBuffer) {

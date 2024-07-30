@@ -26,8 +26,8 @@ public class MimicryLootProvider extends LootTableProvider {
 
 	public static class ChunkyBlockLoot extends BlockLootSubProvider {
 
-		protected ChunkyBlockLoot() {
-			super(Set.of(), FeatureFlags.REGISTRY.allFlags());
+		protected ChunkyBlockLoot(HolderLookup.Provider provider) {
+			super(Set.of(), FeatureFlags.REGISTRY.allFlags(), provider);
 		}
 
 		@Override
