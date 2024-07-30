@@ -64,7 +64,7 @@ public class DeltaSuggestions extends CommandSuggestions {
 
 		try {
 			currentSuggestions = suggestionProvider.get().getList();
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 
 		}
 		showSuggestions(false);

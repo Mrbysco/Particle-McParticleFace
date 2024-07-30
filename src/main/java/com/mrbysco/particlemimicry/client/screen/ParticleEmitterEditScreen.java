@@ -12,7 +12,7 @@ public class ParticleEmitterEditScreen extends AbstractParticleEmitterEditScreen
 	private final ResourceLocation dimension;
 
 	public ParticleEmitterEditScreen(BlockPos blockPos, ResourceLocation dimension,
-									 String particleType, String offset, String parameters, String delta, String speed, String count, String interval) {
+	                                 String particleType, String offset, String parameters, String delta, String speed, String count, String interval) {
 		this.blockPos = blockPos;
 		this.dimension = dimension;
 		this.oldParticleType = particleType;
@@ -25,10 +25,11 @@ public class ParticleEmitterEditScreen extends AbstractParticleEmitterEditScreen
 	}
 
 	public static void openScreen(BlockPos pos, ResourceLocation dimension,
-								  String particleType, String offset, String parameters, String delta, String speed, String count, String interval) {
+	                              String particleType, String offset, String parameters, String delta, String speed, String count, String interval) {
 		Minecraft.getInstance().setScreen(new ParticleEmitterEditScreen(pos, dimension, particleType, offset, parameters, delta, speed, count, interval));
 	}
 
+	@Override
 	protected void init() {
 		super.init();
 		this.particleTypeEdit.setValue(this.oldParticleType);
@@ -44,13 +45,15 @@ public class ParticleEmitterEditScreen extends AbstractParticleEmitterEditScreen
 		this.doneButton.active = value;
 	}
 
+	@Override
 	public void resize(Minecraft mc, int width, int height) {
 		super.resize(mc, width, height);
 		this.enableControls(true);
 	}
 
+	@Override
 	protected void populateAndSendPacket() {
-		PacketDistributor.SERVER.noArg().send(new SetParticleDataPayload(blockPos, dimension,
+		PacketDistributor.sendToServer(new SetParticleDataPayload(blockPos, dimension,
 				particleTypeEdit.getValue(),
 				offsetEdit.getValue(),
 				specialParametersEdit.getValue(),

@@ -3,14 +3,19 @@ package com.mrbysco.particlemimicry.networking.message;
 import com.mrbysco.particlemimicry.ParticleMimicry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 
 public record SetParticleDataPayload(BlockPos pos, ResourceLocation dimension, String particleType, String offset,
-									 String specialParameters,
-									 String delta, String speed, String count,
-									 String interval) implements CustomPacketPayload {
-	public static final ResourceLocation ID = new ResourceLocation(ParticleMimicry.MOD_ID, "set_particle_data");
+                                     String specialParameters,
+                                     String delta, String speed, String count,
+                                     String interval) implements CustomPacketPayload {
+	public static final StreamCodec<FriendlyByteBuf, SetParticleDataPayload> CODEC = CustomPacketPayload.codec(
+			SetParticleDataPayload::write,
+			SetParticleDataPayload::new);
+	public static final Type<SetParticleDataPayload> ID = new Type<>(new ResourceLocation(ParticleMimicry.MOD_ID, "set_particle_data"));
+
 
 	public SetParticleDataPayload(final FriendlyByteBuf packetBuffer) {
 		this(packetBuffer.readBlockPos(), packetBuffer.readResourceLocation(), packetBuffer.readUtf(),
@@ -32,7 +37,7 @@ public record SetParticleDataPayload(BlockPos pos, ResourceLocation dimension, S
 	}
 
 	@Override
-	public ResourceLocation id() {
+	public Type<? extends CustomPacketPayload> type() {
 		return ID;
 	}
 }

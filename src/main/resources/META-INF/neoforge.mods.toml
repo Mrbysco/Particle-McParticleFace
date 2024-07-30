@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[2,)"
+loaderVersion="[3,)"
 issueTrackerURL="https://github.com/Mrbysco/ParticleMimicry"
 license="MIT"
 [[mods]]
@@ -14,13 +14,13 @@ Adds a block that can generate particles
 '''
 [[dependencies.particlemimicry]]
 modId="minecraft"
-type="REQUIRED"
-versionRange="[1.20.4,1.21)"
+type="required"
+versionRange="[1.20.6,1.21)"
 ordering="NONE"
 side="BOTH"
 [[dependencies.particlemimicry]]
 modId="neoforge"
-type="REQUIRED"
-versionRange="[20.4.167,)"
+type="required"
+versionRange="[20.6.115,)"
 ordering="NONE"
 side="BOTH"

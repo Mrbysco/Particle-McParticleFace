@@ -43,6 +43,7 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		super(GameNarrator.NO_TITLE);
 	}
 
+	@Override
 	protected void init() {
 		this.addRenderableWidget(this.doneButton = Button.builder(CommonComponents.GUI_DONE, (button) -> {
 			this.onDone();
@@ -129,6 +130,7 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		this.addWidget(this.intervalEdit);
 	}
 
+	@Override
 	public void tick() {
 		this.particleSuggestions.tick();
 		this.offsetSuggestions.tick();
@@ -161,6 +163,7 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		}
 	}
 
+	@Override
 	public void resize(Minecraft mc, int width, int height) {
 		this.init(mc, width, height);
 		this.particleTypeEdit.setValue(this.particleTypeEdit.getValue());
@@ -182,6 +185,7 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		this.minecraft.setScreen((Screen) null);
 	}
 
+	@Override
 	public void removed() {
 
 	}
@@ -200,6 +204,7 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		this.deltaSuggestions.updateCommandInfo();
 	}
 
+	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
 		if (particleTypeEdit.isFocused() && this.particleSuggestions.keyPressed(keyCode, scanCode, modifiers)) {
 			return true;
@@ -217,6 +222,7 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		}
 	}
 
+	@Override
 	public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
 		if (particleTypeEdit.isFocused()) {
 			return this.particleSuggestions.mouseScrolled(scrollX) ? true : super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
@@ -228,6 +234,7 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
 	}
 
+	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int delta) {
 		// The ugly setFocused calls are to stop multiple edit boxes from being focused at once
 		if (particleTypeEdit.isFocused() && this.particleSuggestions.mouseClicked(mouseX, mouseY, delta)) {
@@ -266,6 +273,7 @@ public abstract class AbstractParticleEmitterEditScreen extends Screen {
 		}
 	}
 
+	@Override
 	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
 		super.render(guiGraphics, mouseX, mouseY, partialTick);
 		guiGraphics.drawCenteredString(this.font, SET_PARTICLE_LABEL, this.width / 2, 20, 16777215);

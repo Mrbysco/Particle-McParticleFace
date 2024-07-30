@@ -6,13 +6,13 @@
       "tag": "minecraft:leaves"
     },
     "G": {
-      "tag": "forge:dusts/glowstone"
+      "tag": "c:dusts/glowstone"
     },
     "R": {
-      "tag": "forge:dusts/redstone"
+      "tag": "c:dusts/redstone"
     },
     "V": {
-      "tag": "forge:storage_blocks/lapis"
+      "tag": "c:storage_blocks/lapis"
     }
   },
   "pattern": [
@@ -21,6 +21,7 @@
     "GCG"
   ],
   "result": {
-    "item": "particlemimicry:particle_emitter"
+    "count": 1,
+    "id": "particlemimicry:particle_emitter"
   }
 }

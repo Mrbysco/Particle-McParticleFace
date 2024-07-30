@@ -11,7 +11,9 @@ import net.minecraft.ReportedException;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.coordinates.WorldCoordinates;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.data.registries.VanillaRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
@@ -52,9 +54,7 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 					CrashReport crashreport = CrashReport.forThrowable(throwable, "Executing particle emitter block");
 					CrashReportCategory crashreportcategory = crashreport.addCategory("Particle command to be executed");
 					crashreportcategory.setDetail("Command", blockEntity.particleCommand);
-					crashreportcategory.setDetail("Name", () -> {
-						return state.getBlock().getName().getString();
-					});
+					crashreportcategory.setDetail("Name", () -> state.getBlock().getName().getString());
 					throw new ReportedException(crashreport);
 				}
 			}
@@ -107,15 +107,6 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 		return offsetString;
 	}
 
-	public boolean isNumeric(String value) {
-		try {
-			Integer.parseInt(value);
-			return true;
-		} catch (NumberFormatException e) {
-			return false;
-		}
-	}
-
 	public void constructCommand() {
 		//Construct command string
 		StringBuilder commandBuilder = new StringBuilder("particle");
@@ -156,8 +147,9 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 		this.particleCommand = commandBuilder.toString();
 	}
 
-	public void load(CompoundTag tag) {
-		super.load(tag);
+	@Override
+	protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+		super.loadAdditional(tag, registries);
 		this.particleType = tag.getString("ParticleType");
 		this.offset = tag.getString("Offset");
 		this.specialParameters = tag.getString("SpecialParameters");
@@ -167,8 +159,8 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 		this.constructCommand();
 	}
 
-	protected void saveAdditional(CompoundTag tag) {
-		super.saveAdditional(tag);
+	protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+		super.saveAdditional(tag, registries);
 		tag.putString("ParticleType", particleType);
 		tag.putString("Offset", offset);
 		tag.putString("SpecialParameters", specialParameters);
@@ -178,25 +170,25 @@ public class ParticleEmitterBlockEntity extends BlockEntity {
 	}
 
 	@Override
-	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
+	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider lookupProvider) {
 		if (pkt.getTag() != null)
-			load(pkt.getTag());
+			loadWithComponents(pkt.getTag(), lookupProvider);
 
 		BlockState state = level.getBlockState(getBlockPos());
 		level.sendBlockUpdated(getBlockPos(), state, state, 3);
 	}
 
 	@Override
-	public CompoundTag getUpdateTag() {
+	public CompoundTag getUpdateTag(HolderLookup.Provider lookupProvider) {
 		CompoundTag nbt = new CompoundTag();
-		this.saveAdditional(nbt);
+		this.saveAdditional(nbt, lookupProvider);
 		return nbt;
 	}
 
 	@Override
 	public CompoundTag getPersistentData() {
 		CompoundTag nbt = new CompoundTag();
-		this.saveAdditional(nbt);
+		this.saveAdditional(nbt, level != null ? level.registryAccess() : VanillaRegistries.createLookup());
 		return nbt;
 	}
 

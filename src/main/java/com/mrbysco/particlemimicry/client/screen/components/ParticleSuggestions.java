@@ -58,12 +58,13 @@ public class ParticleSuggestions extends CommandSuggestions {
 
 		try {
 			currentSuggestions = suggestionProvider.get().getList();
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 
 		}
 		showSuggestions(false);
 	}
 
+	@Override
 	public void showSuggestions(boolean narrateFirstSuggestion) {
 		if (currentSuggestions.isEmpty()) {
 			suggestions = null;

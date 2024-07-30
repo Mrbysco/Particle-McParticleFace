@@ -34,7 +34,7 @@ public class NumberEditBox extends EditBox {
 			super.setValue("0");
 		} else {
 			try {
-				super.setValue(String.format("%." + decimalPoints + "f", Float.parseFloat(value)));
+				super.setValue(String.format(("%." + decimalPoints + "f"), Float.parseFloat(value)));
 			} catch (NumberFormatException e) {
 				super.setValue("0");
 			}

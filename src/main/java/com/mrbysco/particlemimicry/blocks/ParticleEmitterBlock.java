@@ -6,7 +6,6 @@ import com.mrbysco.particlemimicry.registry.MimicryRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -31,7 +30,7 @@ public class ParticleEmitterBlock extends BaseEntityBlock {
 
 	public ParticleEmitterBlock(Properties properties) {
 		super(properties);
-		this.registerDefaultState(this.stateDefinition.any().setValue(POWERED, Boolean.valueOf(false)).setValue(MIMICING, Boolean.valueOf(false)));
+		this.registerDefaultState(this.stateDefinition.any().setValue(POWERED, Boolean.FALSE).setValue(MIMICING, Boolean.FALSE));
 	}
 
 	@Override
@@ -39,7 +38,8 @@ public class ParticleEmitterBlock extends BaseEntityBlock {
 		return CODEC;
 	}
 
-	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+	@Override
+	protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
 		if (player instanceof FakePlayer) return InteractionResult.FAIL;
 
 		if (level.getBlockEntity(pos) instanceof ParticleEmitterBlockEntity blockEntity) {
@@ -52,9 +52,10 @@ public class ParticleEmitterBlock extends BaseEntityBlock {
 			return InteractionResult.sidedSuccess(level.isClientSide);
 		}
 
-		return InteractionResult.PASS;
+		return super.useWithoutItem(state, level, pos, player, hitResult);
 	}
 
+	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
 		return new ParticleEmitterBlockEntity(pos, state);
 	}
@@ -67,6 +68,7 @@ public class ParticleEmitterBlock extends BaseEntityBlock {
 		return null;
 	}
 
+	@Override
 	public RenderShape getRenderShape(BlockState state) {
 		if (state.getValue(MIMICING)) {
 			return RenderShape.INVISIBLE;
@@ -74,6 +76,7 @@ public class ParticleEmitterBlock extends BaseEntityBlock {
 		return RenderShape.MODEL;
 	}
 
+	@Override
 	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
 		if (!level.isClientSide) {
 			boolean flag = state.getValue(POWERED);
@@ -88,12 +91,14 @@ public class ParticleEmitterBlock extends BaseEntityBlock {
 		}
 	}
 
+	@Override
 	public void tick(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource randomSource) {
 		if (state.getValue(POWERED) && !serverLevel.hasNeighborSignal(pos)) {
 			serverLevel.setBlock(pos, state.cycle(POWERED), 2);
 		}
 	}
 
+	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> blockStateBuilder) {
 		blockStateBuilder.add(POWERED, MIMICING);
 	}
