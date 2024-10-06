@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8.5",
+  "compatibilityLevel": "JAVA_21",
+  "package": "com.mrbysco.particlemimicry.mixin",
+  "target": "@env(DEFAULT)",
+  "mixins": [
+    "ParticleEmitterBlockEntityMixin"
+  ],
+  "injectors": {
+	"defaultRequire": 1
+  }
+}
+  

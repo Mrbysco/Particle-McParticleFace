@@ -1,0 +1,12 @@
+{
+  "block.particlemimicry.particle_emitter": "Particle Emitter",
+  "particlemimicry.count": "Count",
+  "particlemimicry.delta": "Delta",
+  "particlemimicry.interval": "Interval",
+  "particlemimicry.networking.set_particle_data.failed": "Failed to set Particle Emitter data %s",
+  "particlemimicry.offset": "Delta",
+  "particlemimicry.particle": "Particle Type",
+  "particlemimicry.setParticle": "Set Particle Type",
+  "particlemimicry.specialParameters": "Special Parameters",
+  "particlemimicry.speed": "Speed"
+}
